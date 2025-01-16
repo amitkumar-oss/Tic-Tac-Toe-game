@@ -17,9 +17,15 @@ const winPattern = [
 
 let turnO = true;
 
+const resetGame=()=>{
+    turnO=true;
+    enableBoxes();
+    msgContainer.classList.add("hide");
+    
+}
+
 boxes.forEach((box) => {
     box.addEventListener('click', () => {
-        console.log("box is clicked")
         if (turnO == true) {
             box.innerHTML = "O";
             turnO = false
@@ -41,25 +47,39 @@ boxes.forEach((box) => {
 
 });
 
+const disableBoxes=()=>{
+    for(let box of boxes){
+        box.disabled=true;
+    }
+}
+const enableBoxes=()=>{
+    for(let box of boxes){
+        box.disabled=false;
+        box.innerText="";
+    }
+}
+
 
 const shoWinner=(winner)=>{
-    msgContainer.innerHTML="Congratulations you are Winner"
+    msgContainer.innerHTML=`Congratulations, winner is ${winner}`;
+    // resetBtn.innerHTML="New Game"
     msgContainer.classList.remove("hide");
-    resetBtn.innerHTML="Play Again"
+    disableBoxes()
+    
     
 
 }
 
 const checkWinner = () => {
     for (let pattern of winPattern) {
-        let pose1 = boxes[pattern[0]].innerText;
-        let pose2 = boxes[pattern[1]].innerText;
-        let pose3 = boxes[pattern[2]].innerText;
+        let pose1 = boxes[pattern[0]].innerText;      //posision 1
+        let pose2 = boxes[pattern[1]].innerText;      //posision 2
+        let pose3 = boxes[pattern[2]].innerText;      //posision 3 
 
         if (pose1 != "" && pose2 != "" && pose3 != "") {
             if (pose1 == pose2 && pose2 == pose3) {
-                console.log("winner")
                 shoWinner(pose1)
+                
 
             }
 
@@ -68,4 +88,6 @@ const checkWinner = () => {
         };
     };
 }
+
+resetBtn.addEventListener('click',resetGame);
 
